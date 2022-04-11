@@ -1,11 +1,19 @@
-const ethers = require('ethers');
-const crypto = require('crypto');
+const express = require('express');
+const app = express();
+const cors = require('cors');
 
-var id = crypto.randomBytes(32).toString('hex');
+const router = require('./routes/wallet');
 
-var privateKey = "0x"+id;
-console.log('DONT SHARE THIS WITH ANY ONE', privateKey);
-console.log(privateKey);
+app.get('/', (req, res)=>{
+    res.send("Welcome to Wallet");
+});
 
-var wallet = new ethers.Wallet(privateKey);
-console.log('This Is Your Address', wallet.address);
+
+app.use(cors());
+app.use(router);
+
+// Preparing PORT
+const PORT = 5000 || process.env;
+app.listen(PORT, ()=>{
+    console.log("listening on port " +PORT);
+})
